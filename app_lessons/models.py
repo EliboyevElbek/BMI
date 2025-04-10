@@ -19,6 +19,8 @@ class LessonName(models.Model):
     lesson_category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Toifasi')
     lesson_banner = models.ImageField(upload_to='media/banner/', verbose_name='Banner rasm')
     lesson_price = models.CharField(max_length=7, verbose_name="Kurs narxi", default="Bepul")
+    lesson_author_name = models.CharField(max_length=50, verbose_name='Dars muallifi', default='admin')
+    lesson_description = models.CharField(max_length=500, verbose_name='Dars haqida umumiy ma\'lumot', default='')
 
     def __str__(self):
         return self.lesson_name
