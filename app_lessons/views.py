@@ -11,7 +11,7 @@ from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView, Response
 
 from .filter import LessonNameFilter
-from .permissions import IsOwnerOfComment, CustomCategoryPermission
+# from .permissions import IsOwnerOfComment, CustomCategoryPermission
 from .models import Category, Comments, Stars, Lessons, LessonName, PaymentUser
 
 from .serializers import (
@@ -28,11 +28,11 @@ from rest_framework.generics import get_object_or_404
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [CustomCategoryPermission]
+    # permission_classes = [CustomCategoryPermission]
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializers
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfComment]
+    # permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfComment]
 
     def get_queryset(self):
         lesson_id = self.kwargs.get('lesson_id')
@@ -49,7 +49,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 class StarsAPIView(ListCreateAPIView):
     queryset = Stars.objects.all()
     serializer_class = StarsSerializers
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         lesson_id = self.request.data.get('stars_lesson')
@@ -73,7 +73,7 @@ class LessonsUpdateAPIView(mixins.UpdateModelMixin,
                            GenericAPIView):
     queryset = Lessons.objects.all()
     serializer_class = LessonsSerializers
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -93,14 +93,14 @@ class LessonNameUpdateAPIView(mixins.UpdateModelMixin,
                               GenericAPIView):
     queryset = LessonName.objects.all()
     serializer_class = LessonsNameSerializers
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
 
 class UserPaymentView(APIView):
-    permission_classes = [IsAuthenticated, IsOwnerOfComment]
+    # permission_classes = [IsAuthenticated, IsOwnerOfComment]
 
     def get(self, request, lesson_id):
         user = request.user
@@ -185,7 +185,7 @@ class UserPaymentView(APIView):
         # print(sms_response)
 
 class PaymentStoryView(APIView):
-    permission_classes = [IsAuthenticated, IsOwnerOfComment]
+    # permission_classes = [IsAuthenticated, IsOwnerOfComment]
 
     def get(self, request):
         user = request.user
