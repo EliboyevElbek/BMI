@@ -1,5 +1,4 @@
 from rest_framework.decorators import api_view
-
 from config.settings import email_send, EMAIL_HOST_USER
 from random import randint
 
@@ -10,7 +9,6 @@ from rest_framework.response import Response
 
 from .models import CustomUser
 from .serializers import UserSerializers, UserUpdateSerializer
-
 
 # Create your views here.
 

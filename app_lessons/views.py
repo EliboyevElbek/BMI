@@ -33,6 +33,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializers
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOfComment]
+    queryset = Comments.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['video_comment']
 
     def get_queryset(self):
         lesson_id = self.kwargs.get('lesson_id')
@@ -41,7 +44,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Comments.objects.all()
 
     def perform_create(self, serializer):
-        lesson_id = self.kwargs.get('lesson_id')
+        lesson_id = self.request.data.get('video_comment')
         lesson = get_object_or_404(Lessons, id=lesson_id)
         serializer.save(from_user=self.request.user, video_comment=lesson)
 
@@ -61,8 +64,12 @@ class StarsAPIView(ListCreateAPIView):
         serializer.save(from_user=user)
 
 class LessonsListAPIView(ListAPIView):
-    queryset = Lessons.objects.all()
     serializer_class = LessonsSerializers
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        lesson_name_id = self.kwargs.get('pk')
+        return Lessons.objects.filter(lessons_name_id=lesson_name_id)
 
 class LessonRetrieveAPIView(RetrieveAPIView):
     queryset = Lessons.objects.all()
@@ -87,6 +94,7 @@ class LessonNameAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = LessonNameFilter
     search_fields = ['lesson_category__category_name']
+    permission_classes = [IsAuthenticated]
 
 
 class LessonNameUpdateAPIView(mixins.UpdateModelMixin,

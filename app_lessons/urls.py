@@ -20,8 +20,8 @@ router.register(r'comments', CommentViewSet, basename='comments')
 urlpatterns = [
     path('', include(router.urls)),
     path('stars/', StarsAPIView.as_view()),
-    path('lessons/', LessonsListAPIView.as_view()),
-    path('lessons/<int:pk>/', LessonRetrieveAPIView.as_view()),
+    path('lessons/<int:pk>/', LessonsListAPIView.as_view()),
+    # path('lessons/<int:pk>/', LessonRetrieveAPIView.as_view()),
     path('lessons/<int:pk>/update/', LessonsUpdateAPIView.as_view()),
     path('lesson-names/', LessonNameAPIView.as_view()),
     path('lesson-names/<int:pk>/', LessonNameUpdateAPIView.as_view()),
